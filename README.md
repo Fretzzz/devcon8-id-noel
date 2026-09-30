@@ -30,8 +30,9 @@ Replace the files in that repo with these files and commit. Vercel redeploys aut
 3. Vercel gives the project an address. If it differs from the one in `index.html`, update it (see **Site address** below).
 
 ## After deploying, check
+
 1. https://devcon8-id.vercel.app/api/avatar?u=noelaiyub shows the profile picture.
-2. On the site, typing a handle shows 'Profile picture loaded'.
+2. On the site, typing a handle shows "Profile picture loaded".
 3. Pasting the site link at https://www.opengraph.xyz shows the preview card.
 
 ## Site address
@@ -45,3 +46,17 @@ If the site moves to a new domain, update both and commit.
 ## Editing
 
 Edit any file on GitHub and commit. Vercel redeploys in about 30 seconds. Every past version stays under **Deployments** in Vercel, where you can roll back with one click.
+
+Handy settings in `index.html`:
+- `CARD_DISCLAIMER`: the small line at the bottom of every card
+- `TAGLINES`: the tagline chips
+- `THEMES`: card colour themes
+
+## Squad mode (switched off)
+
+Squad mode puts up to 10 X handles on one card. It's built but hidden for now. To turn it on, find `const SQUAD_ENABLED = false;` in `index.html` and change it to `true`.
+
+## Handy links
+
+- `https://devcon8-id.vercel.app/?u=handle` opens the site with that handle already filled in.
+- `https://devcon8-id.vercel.app/?squad=a,b,c` opens Squad mode with those handles added (only when Squad mode is on).

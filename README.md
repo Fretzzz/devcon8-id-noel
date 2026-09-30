@@ -22,7 +22,7 @@ No build step and no dependencies.
 ## Deploy on Vercel
 
 ### If `devcon8-id` on Vercel is already connected to a GitHub repo
-Replace the files in that repo with these files and commit. Vercel redeploys automatically, and https://devcon8-id-six.vercel.app shows the new site.
+Replace the files in that repo with these files and commit. Vercel redeploys automatically, and https://devcon8-id.vercel.app/ shows the new site.
 
 ### If you're starting fresh
 1. Create a GitHub repo (for example `devcon8-id`) and upload everything in this folder, keeping the `api` folder.
@@ -30,7 +30,7 @@ Replace the files in that repo with these files and commit. Vercel redeploys aut
 3. Vercel gives the project an address. If it differs from the one in `index.html`, update it (see **Site address** below).
 
 ## After deploying, check
-1. https://devcon8-id-six.vercel.app/api/avatar?u=noelaiyub shows the profile picture.
+1. https://devcon8-id.vercel.app/api/avatar?u=noelaiyub shows the profile picture.
 2. On the site, typing a handle shows 'Profile picture loaded'.
 3. Pasting the site link at https://www.opengraph.xyz shows the preview card.
 

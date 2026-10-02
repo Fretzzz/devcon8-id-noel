@@ -11,8 +11,17 @@
 // project adds KV_REST_API_URL and KV_REST_API_TOKEN automatically
 // (UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN also work).
 
-const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+// Finds the Redis connection whatever prefix Vercel gave it (KV_, STORAGE_, UPSTASH_ …).
+function findEnv(suffixes) {
+  for (const suf of suffixes) {
+    if (process.env[suf.replace(/^_/, "")]) return process.env[suf.replace(/^_/, "")];
+    const key = Object.keys(process.env).find((k) => k.endsWith(suf) && !k.includes("READ_ONLY") && process.env[k]);
+    if (key) return process.env[key];
+  }
+  return "";
+}
+const REDIS_URL = findEnv(["KV_REST_API_URL", "UPSTASH_REDIS_REST_URL", "_KV_REST_API_URL", "_REST_API_URL", "_REDIS_REST_URL"]);
+const REDIS_TOKEN = findEnv(["KV_REST_API_TOKEN", "UPSTASH_REDIS_REST_TOKEN", "_KV_REST_API_TOKEN", "_REST_API_TOKEN", "_REDIS_REST_TOKEN"]);
 const FOUNDER = (process.env.FOUNDER_HANDLE || "noelaiyub").toLowerCase();
 const IDS = "devcon8:ids";          // hash: handle -> number
 const COUNTER = "devcon8:counter";  // last number given out

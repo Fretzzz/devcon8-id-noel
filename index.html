@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Devcon8 ID · Make your Devcon 8 card</title>
+<title>Devcon 8 ID · Make your Devcon 8 card</title>
 <meta name="description" content="Make your Devcon 8 card from your X profile in seconds. Mumbai, India · 3–6 Nov 2026.">
 <!-- Link previews (X, WhatsApp, LinkedIn). If the site address ever changes, update it here and in PUBLIC_URL_CONFIG below. -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Devcon8 ID · Make your Devcon 8 card">
+<meta property="og:title" content="Devcon 8 ID · Make your Devcon 8 card">
 <meta property="og:description" content="Enter your X handle, pick a tagline, share. See you in Mumbai, 3–6 Nov 2026.">
 <meta property="og:image" content="https://devcon8-id.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://devcon8-id.vercel.app/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Devcon8 ID · Make your Devcon 8 card">
+<meta name="twitter:title" content="Devcon 8 ID · Make your Devcon 8 card">
 <meta name="twitter:description" content="Enter your X handle, pick a tagline, share. See you in Mumbai, 3–6 Nov 2026.">
 <meta name="twitter:image" content="https://devcon8-id.vercel.app/og.png">
 <meta name="theme-color" content="#1B1846">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235FE3D6'/%3E%3Cstop offset='.5' stop-color='%23B59CF2'/%3E%3Cstop offset='1' stop-color='%23F6A067'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%231B1846'/%3E%3Cpath d='M32 8 50 32 32 56 14 32z' fill='url(%23g)'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@500&family=Pixelify+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@500&family=Pixelify+Sans:wght@400;700&display=swap">
 <style>
 *{box-sizing:border-box}
 :root{
@@ -29,6 +29,7 @@
   --ui:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --read:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
   --display:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;
 
   /* palette taken from the Devcon 8 artwork */
@@ -92,7 +93,7 @@ body.hovering .backdrop .spot{opacity:1}
 /* ---------- Liquid glass ---------- */
 .glass{
   position:relative;isolation:isolate;
-  background:var(--g-tint);
+  background:linear-gradient(150deg,rgba(64,56,150,.30) 0%,rgba(34,30,92,.18) 55%,rgba(18,16,52,.10) 100%);
   -webkit-backdrop-filter:blur(28px) saturate(170%);
   backdrop-filter:blur(28px) saturate(170%);
   border:1px solid var(--g-edge);
@@ -115,7 +116,7 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,247,255,.85);padding:7px 14px;border-radius:999px;margin-top:16px}
 .eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:pulse 1.8s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 2px var(--teal)}}
-.wordmark{margin:14px 0 10px;font-family:var(--display);font-weight:800;font-size:clamp(40px,7vw,78px);line-height:.95;letter-spacing:-.03em;color:#FFF8F0;text-shadow:0 4px 30px rgba(12,10,40,.5)}
+.wordmark{margin:14px 0 10px;font-family:var(--serif);font-weight:600;font-variation-settings:"opsz" 144;font-size:clamp(44px,7.4vw,84px);line-height:1;letter-spacing:-.015em;color:#FFF8F0;text-shadow:0 4px 30px rgba(12,10,40,.5)}
 .wordmark span{display:inline-block;animation:letter 1s var(--ease) both;animation-delay:calc(.5s + var(--i) * .045s)}
 .wordmark .accent{background:var(--grad);background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em;text-shadow:none}
 @keyframes letter{from{opacity:0;transform:translateY(.45em) rotate(6deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
@@ -124,11 +125,10 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 /* ---------- Layout ---------- */
-.layout{display:grid;grid-template-columns:1.12fr 1fr;gap:18px;align-items:start}
-@media (max-width:880px){.layout{grid-template-columns:1fr}}
+.layout{display:grid;grid-template-columns:1.12fr 1fr;grid-template-areas:"preview stack" "extras stack";grid-template-rows:auto 1fr;gap:18px;align-items:start}
+.layout>.preview{grid-area:preview}.layout>.stack{grid-area:stack}.layout>.extras{grid-area:extras}
+@media (max-width:880px){.layout{grid-template-columns:1fr;grid-template-areas:"preview" "stack" "extras";grid-template-rows:auto}}
 .panel{border-radius:28px;padding:18px}
-.preview{position:sticky;top:16px}
-@media (max-width:880px){.preview{position:static}}
 .preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .preview-head h2{margin:0;font-family:var(--display);font-weight:700;font-size:22px}
 
@@ -167,6 +167,32 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 .credit a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3);transition:color .2s,border-color .2s}
 .credit a:hover{color:var(--teal);border-color:var(--teal)}
 @media (max-width:600px){.credit{top:10px;right:12px;font-size:11px}}
+/* ---------- countdown + latest cards ---------- */
+.extras{display:flex;flex-direction:column;gap:18px}
+.ext-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin:2px 4px 16px}
+.ext-head h2{margin:0;font-family:var(--serif);font-weight:600;font-size:24px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.ext-sub{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cd-cell{border-radius:18px;padding:16px 8px 12px;text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.02));border:1px solid var(--line)}
+.cd-cell b{display:block;font-family:"Pixelify Sans",var(--mono);font-weight:500;font-size:clamp(32px,4.4vw,48px);line-height:1;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--peach)}
+.cd-cell span{display:block;margin-top:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+.cd-live{margin:0;padding:18px;border-radius:18px;text-align:center;font-family:var(--serif);font-size:22px;background:linear-gradient(160deg,rgba(95,227,214,.16),rgba(246,160,103,.10));border:1px solid var(--line)}
+.live{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(95,227,214,.6);animation:livepulse 2s infinite}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(95,227,214,.55)}70%{box-shadow:0 0 0 9px rgba(95,227,214,0)}100%{box-shadow:0 0 0 0 rgba(95,227,214,0)}}
+.board-list{list-style:none;margin:0;padding:0 4px 0 0;max-height:372px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.board-list li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:9px 12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid transparent;transition:background .2s,border-color .2s}
+.board-list li:hover{background:rgba(255,255,255,.08)}
+.board-list li.me{border-color:rgba(246,160,103,.55);background:linear-gradient(90deg,rgba(246,160,103,.14),rgba(181,156,242,.08))}
+.board-list li.new{animation:boardin .6s var(--ease)}
+@keyframes boardin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.bav{width:36px;height:36px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#3B2F86,#16194A);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;color:#fff;border:1px solid rgba(255,255,255,.18)}
+.bwho{min-width:0;display:flex;flex-direction:column;gap:2px}
+.bwho a{color:var(--ink);text-decoration:none;font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bwho a:hover{color:var(--teal)}
+.bwho time,.bwho small{font-size:12px;color:var(--ink-dim)}
+.bid{font-family:"Pixelify Sans",var(--mono);font-size:15px;letter-spacing:.04em;color:var(--peach);white-space:nowrap}
+.board-foot{display:flex;justify-content:center;margin-top:12px}
+.board-empty{text-align:center;padding:18px 8px}
 .suggest{position:relative}
 .step.open-list,.step:has(.suggest ul:not([hidden])){z-index:40}
 .zoomrow{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px}
@@ -179,7 +205,7 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 .suggest li:hover,.suggest li.on{background:var(--chip-hover)}
 .picked{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ok)}
 .idbox{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:linear-gradient(90deg,rgba(246,160,103,.16),rgba(181,156,242,.12));border:1px solid rgba(246,160,103,.45)}
-.idbox b{font-family:"Pixelify Sans",var(--mono);font-size:22px;color:var(--peach);letter-spacing:.04em}
+.idbox b{white-space:nowrap;font-family:"Pixelify Sans",var(--mono);font-size:22px;color:var(--peach);letter-spacing:.04em}
 .idbox span{font-size:13px;color:var(--ink-dim);line-height:1.4}
 .progress{height:6px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
 .progress i{display:block;height:100%;width:0;background:var(--grad);transition:width .2s}
@@ -282,7 +308,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
   <section class="hero">
     <div class="logo-plate"><img class="logo" id="heroLogo" alt="Devcon VIII India"></div>
     <div><span class="eyebrow glass r" style="--d:.35"><i></i>Mumbai, India · 3–6 Nov 2026</span></div>
-    <h1 class="wordmark" id="wordmark" aria-label="Devcon8 ID"></h1>
+    <h1 class="wordmark" id="wordmark" aria-label="Devcon 8 ID"></h1>
     <p class="lede r" style="--d:.8">Pick a card, type your X handle and get your own numbered Devcon 8 ID to share with the world.</p>
     <p class="counter r" style="--d:.9" id="totalIds" hidden></p>
   </section>
@@ -301,6 +327,32 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
         <span class="glow"></span><span class="edge"></span>
       </div>
     </section>
+
+    <div class="extras">
+      <section class="panel glass countdown r" style="--d:1" aria-label="Countdown to Devcon 8">
+        <div class="ext-head">
+          <h2 id="cdTitle">Devcon 8 starts in</h2>
+          <span class="ext-sub">3 Nov 2026 · Jio World Centre, Mumbai</span>
+        </div>
+        <div class="cd" id="cdGrid" role="timer" aria-live="off">
+          <div class="cd-cell"><b id="cdD">--</b><span>Days</span></div>
+          <div class="cd-cell"><b id="cdH">--</b><span>Hours</span></div>
+          <div class="cd-cell"><b id="cdM">--</b><span>Minutes</span></div>
+          <div class="cd-cell"><b id="cdS">--</b><span>Seconds</span></div>
+        </div>
+        <p class="cd-live" id="cdLive" hidden></p>
+      </section>
+
+      <section class="panel glass board r" style="--d:1.1" aria-label="Latest cards">
+        <div class="ext-head">
+          <h2><i class="live" aria-hidden="true"></i>Latest cards</h2>
+          <span class="ext-sub" id="boardCount"></span>
+        </div>
+        <ol class="board-list" id="boardList"></ol>
+        <p class="note board-empty" id="boardEmpty">No cards yet. Make yours and be the first on the board.</p>
+        <div class="board-foot"><button type="button" class="linkbtn" id="boardMore" hidden>Show more</button></div>
+      </section>
+    </div>
 
     <div class="stack">
       <section class="card glass step" style="--i:0">
@@ -415,8 +467,8 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
 
   <footer>
     Devcon 8 · Mumbai, India · 3–6 November 2026<br>
-    Profile pictures come from public X data. We only store your X handle and its ID number.
-    <p class="disclaimer">Devcon8 ID is an unofficial, fan-made project. It is not affiliated with, endorsed by, or connected to the Ethereum Foundation or Devcon. The Devcon name, logo and artwork belong to their respective owners.</p>
+    Profile pictures come from public X data. We store your X handle, its ID number and when it was made, and show them on the public Latest cards board.
+    <p class="disclaimer">Devcon 8 ID is an unofficial, fan-made project. It is not affiliated with, endorsed by, or connected to the Ethereum Foundation or Devcon. The Devcon name, logo and artwork belong to their respective owners.</p>
   </footer>
 </main>
 
@@ -2009,8 +2061,8 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
   function showId() {
     $("idValue").textContent = idText();
     $("idNote").textContent = state.id
-      ? `This is your permanent Devcon8 ID for @${state.handle}. It stays the same every time you make a card.`
-      : "Your number is assigned the first time you download or share. Each X handle gets one number, forever.";
+      ? `This is your permanent Devcon 8 ID for @${state.handle}. It stays the same every time you make a card.`
+      : "Your number is assigned the first time you download or share. Each X handle gets one number, forever, and joins the Latest cards board.";
   }
   // Opened from a file or localhost: IDs are kept in this browser only, so you can test the flow.
   const PREVIEW_IDS = !ONLINE || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
@@ -2022,6 +2074,7 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
   }
   function savePreviewDb(db) { memDb = db; try { localStorage.setItem("devcon8-preview-ids", JSON.stringify(db)); } catch (e) {} }
   // Remember a handle's number for this visit, so every template shows the same one.
+  function markMe() { if (board.items.length) drawBoard(); }
   function gotId(key, id) { state.idCache[key] = id; state.id = id; state.idFor = key; }
   async function lookupId(handle) {
     if (PREVIEW_IDS && handle) {
@@ -2038,7 +2091,103 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
       if (d.id && handle.toLowerCase() === state.handle.toLowerCase()) { gotId(handle.toLowerCase(), d.id); showId(); render(); syncCaption(); }
     } catch (e) {}
   }
-  function setTotal(n) { const el = $("totalIds"); el.hidden = !n; el.textContent = `${n.toLocaleString("en-IN")} Devcon8 IDs claimed so far`; }
+  function setTotal(n) {
+    const el = $("totalIds"); el.hidden = !n; el.textContent = `${n.toLocaleString("en-IN")} Devcon 8 IDs claimed so far`;
+    $("boardCount").textContent = n ? `${n.toLocaleString("en-IN")} ${n === 1 ? "card" : "cards"}` : "";
+  }
+
+  /* ---------- countdown to Devcon 8 (3 Nov 2026, Mumbai time) ---------- */
+  const DEVCON_START = Date.parse("2026-11-03T00:00:00+05:30");
+  const DEVCON_END = Date.parse("2026-11-07T00:00:00+05:30");
+  function tickCountdown() {
+    const now = Date.now(), left = DEVCON_START - now;
+    if (left <= 0) {
+      $("cdGrid").hidden = true; $("cdLive").hidden = false;
+      $("cdTitle").textContent = now < DEVCON_END ? "Devcon 8 is live" : "Devcon 8 is a wrap";
+      $("cdLive").textContent = now < DEVCON_END ? "Happening now in Mumbai. See you at Jio World Centre!" : "Thank you, Mumbai. See you at the next Devcon!";
+      return false;
+    }
+    const sec = Math.floor(left / 1000), pad = (n) => String(n).padStart(2, "0");
+    $("cdD").textContent = pad(Math.floor(sec / 86400)); $("cdH").textContent = pad(Math.floor(sec / 3600) % 24);
+    $("cdM").textContent = pad(Math.floor(sec / 60) % 60); $("cdS").textContent = pad(sec % 60);
+    return true;
+  }
+  if (tickCountdown()) { const cdTimer = setInterval(() => { if (!tickCountdown()) clearInterval(cdTimer); }, 1000); }
+
+  /* ---------- latest cards board (newest first) ---------- */
+  const board = { items: [], ids: new Set(), loading: false, more: true };
+  const PAGE = 25;
+  function ago(t) {
+    if (!t) return "";
+    const s = Math.max(0, (Date.now() - t) / 1000);
+    if (s < 45) return "just now";
+    if (s < 3600) return `${Math.round(s / 60)}m ago`;
+    if (s < 86400) return `${Math.round(s / 3600)}h ago`;
+    if (s < 86400 * 30) return `${Math.round(s / 86400)}d ago`;
+    return new Date(t).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+  }
+  function boardRow(it, fresh) {
+    const li = document.createElement("li");
+    if (fresh) li.className = "new";
+    if (state.idFor && it.u === state.idFor) li.classList.add("me");
+    const fallback = () => { const d = document.createElement("span"); d.className = "bav"; d.textContent = (it.u[0] || "?").toUpperCase(); return d; };
+    let av;
+    if (ONLINE || !PREVIEW_IDS) {
+      av = document.createElement("img"); av.className = "bav"; av.alt = ""; av.loading = "lazy"; av.decoding = "async";
+      av.src = PREVIEW_IDS ? `https://unavatar.io/x/${encodeURIComponent(it.u)}?fallback=false` : `/api/avatar?u=${encodeURIComponent(it.u)}`;
+      av.onerror = () => av.replaceWith(fallback());
+    } else av = fallback();
+    const who = document.createElement("div"); who.className = "bwho";
+    const a = document.createElement("a"); a.href = `https://x.com/${encodeURIComponent(it.u)}`; a.target = "_blank"; a.rel = "noopener"; a.textContent = "@" + (it.n || it.u);
+    const when = document.createElement("time"); when.dataset.t = it.t || ""; when.textContent = li.classList.contains("me") ? "You" + (it.t ? " · " + ago(it.t) : "") : ago(it.t);
+    who.append(a, when);
+    const id = document.createElement("span"); id.className = "bid"; id.textContent = DC.idLabel(it.id);
+    li.append(av, who, id);
+    return li;
+  }
+  function drawBoard(freshIds) {
+    const list = $("boardList"); list.innerHTML = "";
+    board.items.forEach((it) => list.appendChild(boardRow(it, freshIds && freshIds.has(it.id))));
+    $("boardEmpty").hidden = board.items.length > 0;
+    $("boardMore").hidden = !board.more || !board.items.length;
+  }
+  function mergeBoard(items, prepend) {
+    const fresh = new Set();
+    items.forEach((it) => { if (!board.ids.has(it.id)) { board.ids.add(it.id); board.items.push(it); if (prepend) fresh.add(it.id); } });
+    board.items.sort((a, b) => b.id - a.id);
+    return fresh;
+  }
+  async function fetchBoard(before) {
+    if (PREVIEW_IDS) {
+      const db = previewDb();
+      return Object.entries(db.ids).map(([u, id]) => ({ u, id, n: (db.names || {})[u] || u, t: (db.t || {})[u] || null }))
+        .filter((x) => !before || x.id < before).sort((a, b) => b.id - a.id).slice(0, PAGE);
+    }
+    const r = await fetch(`/api/id?recent=${PAGE}${before ? "&before=" + before : ""}`);
+    if (!r.ok) throw new Error("board " + r.status);
+    const d = await r.json(); if (d.total) setTotal(d.total);
+    return d.items || [];
+  }
+  async function refreshBoard() {
+    if (board.loading) return; board.loading = true;
+    try {
+      const items = await fetchBoard(0), first = !board.items.length;
+      const fresh = mergeBoard(items, !first);
+      if (first) board.more = items.length === PAGE;
+      drawBoard(first ? null : fresh);
+    } catch (e) { if (!board.items.length) { $("boardEmpty").textContent = "The board will appear here once the ID service is connected."; } }
+    board.loading = false;
+  }
+  $("boardMore").onclick = async () => {
+    if (board.loading || !board.items.length) return; board.loading = true; $("boardMore").textContent = "Loading…";
+    try { const items = await fetchBoard(board.items[board.items.length - 1].id); board.more = items.length === PAGE; mergeBoard(items, false); drawBoard(); }
+    catch (e) {}
+    $("boardMore").textContent = "Show more"; board.loading = false;
+  };
+  setInterval(() => {
+    if (document.visibilityState === "visible") refreshBoard();
+    document.querySelectorAll("#boardList time").forEach((el) => { const t = Number(el.dataset.t); if (t) el.textContent = (el.textContent.startsWith("You") ? "You · " : "") + ago(t); });
+  }, 30000);
   // Claim (or re-use) this handle's number. Required before any download or share.
   async function ensureId() {
     if (!state.handle) { toast("Type your X handle first"); $("handle").focus(); return false; }
@@ -2046,16 +2195,16 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
     if (state.idCache[key]) { state.id = state.idCache[key]; state.idFor = key; showId(); render(); return true; }
     if (PREVIEW_IDS) {
       const db = previewDb(); let isNew = false;
-      if (!db.ids[key]) { db.n += 1; db.ids[key] = db.n; isNew = true; }
+      if (!db.ids[key]) { db.n += 1; db.ids[key] = db.n; db.t = db.t || {}; db.t[key] = Date.now(); db.names = db.names || {}; db.names[key] = state.handle; isNew = true; }
       savePreviewDb(db); gotId(key, db.ids[key]); setTotal(db.n);
-      showId(); render(); syncCaption(); toast(`Preview ${isNew ? "ID" : "ID (same as before)"}: ${idText()}`); return true;
+      showId(); render(); syncCaption(); refreshBoard(); markMe(); toast(`Preview ${isNew ? "ID" : "ID (same as before)"}: ${idText()}`); return true;
     }
     try {
       toast("Getting your ID number…");
       const r = await fetch("/api/id", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ u: state.handle }) });
       const d = await r.json().catch(() => ({}));
       if (!r.ok || !d.id) { toast(d.error || "Couldn't get your ID number. Please try again."); return false; }
-      gotId(key, d.id); if (d.total) setTotal(d.total);
+      gotId(key, d.id); if (d.total) setTotal(d.total); refreshBoard(); markMe();
       showId(); render(); syncCaption();
       toast(d.isNew ? `Welcome! You're ${idText()}` : `Welcome back, ${idText()}`);
       return true;
@@ -2171,7 +2320,7 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
       if (SITE) lines.push(SITE);
       return lines.join("\n");
     }
-    const idLine = state.id ? `Devcon8 ${idText()}` : "";
+    const idLine = state.id ? `Devcon 8 ${idText()}` : "";
     let lines;
     if (state.template === "postcard") lines = ["Sending a postcard from Mumbai 💌", "", state.message, ""];
     else if (state.template === "journey" && state.from) {
@@ -2258,7 +2407,8 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
 
   (function buildWordmark() {
     const el = $("wordmark"); let i = 0;
-    [["Devcon8", false], ["ID", true]].forEach(([word, accent], wi) => {
+    const words = [["Devcon", false], ["8", false], ["ID", true]];
+    words.forEach(([word, accent], wi) => {
       const w = document.createElement("span");
       w.style.display = "inline-block"; w.style.animation = "none"; w.style.whiteSpace = "nowrap";
       [...word].forEach((ch) => {
@@ -2268,7 +2418,7 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
         s.setAttribute("aria-hidden", "true"); w.appendChild(s);
       });
       el.appendChild(w);
-      if (wi === 0) el.appendChild(document.createTextNode(" "));
+      if (wi < words.length - 1) el.appendChild(document.createTextNode(" "));
     });
     const slice = () => {
       const letters = [...el.querySelectorAll(".accent")]; if (!letters.length) return;
@@ -2485,6 +2635,7 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
   if (u) { $("handle").value = u; state.handle = u; loadAvatar(u); lookupId(u); }
   const tq = new URLSearchParams(location.search).get("card");
   setTemplate(tq && ["classic", "postcard", "journey"].includes(tq) ? tq : "classic");
+  refreshBoard();
   if (PREVIEW_IDS) setTotal(previewDb().n);
   else if (ONLINE) fetch("/api/id").then((r) => (r.ok ? r.json() : null)).then((d) => { if (d && d.total) setTotal(d.total); }).catch(() => {});
   showId();

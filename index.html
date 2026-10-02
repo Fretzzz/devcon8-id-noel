@@ -163,6 +163,10 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 .th-postcard::after{content:"";position:absolute;right:10px;top:10px;width:18px;height:22px;background:#F6A067}
 .th-journey{background:radial-gradient(circle at 30% 40%,#5FE3D6 0 6%,transparent 7%),radial-gradient(circle at 75% 65%,#F6A067 0 6%,transparent 7%),linear-gradient(135deg,#2E3283,#141748)}
 .th-journey::after{content:"";position:absolute;left:30%;top:40%;width:48%;height:2px;background:repeating-linear-gradient(90deg,#B59CF2 0 4px,transparent 4px 8px);transform-origin:left;transform:rotate(28deg)}
+.credit{position:absolute;top:14px;right:18px;z-index:50;margin:0;font-size:12px;letter-spacing:.02em;color:var(--ink-dim)}
+.credit a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3);transition:color .2s,border-color .2s}
+.credit a:hover{color:var(--teal);border-color:var(--teal)}
+@media (max-width:600px){.credit{top:10px;right:12px;font-size:11px}}
 .suggest{position:relative}
 .step.open-list,.step:has(.suggest ul:not([hidden])){z-index:40}
 .zoomrow{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px}
@@ -272,6 +276,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
   <span class="spot"></span>
 </div>
 <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+<p class="credit">Made with <span aria-label="love">❤️</span> by <a href="https://x.com/noelaiyub" target="_blank" rel="noopener">Noel Aiyub</a></p>
 
 <main>
   <section class="hero">

@@ -459,7 +459,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
         <textarea id="caption"></textarea>
         <div class="tip">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-          <span id="tipText">On desktop, X can't receive an image from a link. <b>Post on X</b> downloads your PNG too, so just attach it in the composer.</span>
+          <span id="tipText">On desktop, X can't receive an image from a link. <b>Post on X</b> downloads your card and opens a quote of the Devcon 8 ID launch post, so just attach your card in the composer.</span>
         </div>
       </section>
     </div>
@@ -1759,6 +1759,8 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
   // The public address printed on every card and used in the share caption.
   // If the site moves to a new domain, change it here and in the meta tags at the top.
   const PUBLIC_URL_CONFIG = "https://devcon8-id.vercel.app";
+  // Every post made from the site quotes this post on X. Set to "" to turn quoting off.
+  const QUOTE_POST = "https://x.com/noelaiyub/status/2106774560288964752";
   const SITE = /^https?:\/\//.test(PUBLIC_URL_CONFIG) ? PUBLIC_URL_CONFIG.replace(/\/?$/, "/")
     : ONLINE ? location.origin + location.pathname.replace(/index\.html$/, "") : "";
   const SITE_HOST = SITE ? new URL(SITE).host : "devcon8-id";
@@ -2393,12 +2395,14 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
     let file;
     if (state.template === "journey") { try { file = new File([await makeGif()], fileName("gif"), { type: "image/gif" }); } catch (e) {} }
     if (!file) { const blob = await safeBlob(); if (!blob) return; file = new File([blob], fileName("png"), { type: "image/png" }); }
-    try { await navigator.share({ files: [file], text: $("caption").value }); }
+    const text = $("caption").value + (QUOTE_POST ? "\n\n" + QUOTE_POST : "");
+    try { await navigator.share({ files: [file], text }); }
     catch (e) { if (e.name !== "AbortError") toast("Sharing failed. Try downloading instead."); }
   }
   async function postOnX() {
     const ok = state.template === "journey" ? await downloadGif() : await download();
-    if (ok) window.open("https://x.com/intent/post?text=" + encodeURIComponent($("caption").value), "_blank", "noopener");
+    // X turns a post link placed at the end of the text into a quote of that post.
+    if (ok) window.open("https://x.com/intent/post?text=" + encodeURIComponent($("caption").value) + (QUOTE_POST ? "&url=" + encodeURIComponent(QUOTE_POST) : ""), "_blank", "noopener");
   }
 
   /* ---------- effects ---------- */
@@ -2555,7 +2559,7 @@ window.DEVCON_INDIA={"outline":{"type":"MultiPolygon","coordinates":[[[[80.996,3
     const test = new File([new Blob(["x"], { type: "image/png" })], "t.png", { type: "image/png" });
     if (navigator.canShare && navigator.canShare({ files: [test] })) {
       $("share").hidden = false;
-      $("tipText").innerHTML = "<b>Share with image</b> opens your phone's share sheet with the card already attached. Pick X from the list.";
+      $("tipText").innerHTML = "<b>Share with image</b> opens your phone's share sheet with the card already attached and quotes the Devcon 8 ID launch post. Pick X from the list.";
     }
   } catch {}
 

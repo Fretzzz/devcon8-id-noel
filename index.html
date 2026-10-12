@@ -163,10 +163,36 @@ main{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:calc(30p
 .th-postcard::after{content:"";position:absolute;right:10px;top:10px;width:18px;height:22px;background:#F6A067}
 .th-journey{background:radial-gradient(circle at 30% 40%,#5FE3D6 0 6%,transparent 7%),radial-gradient(circle at 75% 65%,#F6A067 0 6%,transparent 7%),linear-gradient(135deg,#2E3283,#141748)}
 .th-journey::after{content:"";position:absolute;left:30%;top:40%;width:48%;height:2px;background:repeating-linear-gradient(90deg,#B59CF2 0 4px,transparent 4px 8px);transform-origin:left;transform:rotate(28deg)}
-.credit{position:absolute;top:14px;right:18px;z-index:50;margin:0;font-size:12px;letter-spacing:.02em;color:var(--ink-dim)}
+.topbar{position:absolute;top:12px;left:18px;right:18px;z-index:50;display:flex;align-items:center;justify-content:flex-end;gap:16px}
+.credit{margin:0;font-size:12px;letter-spacing:.02em;color:var(--ink-dim)}
+.btn-top{height:36px;padding:0 15px;font-size:13.5px;gap:6px;text-decoration:none;color:var(--ink);background:linear-gradient(150deg,rgba(64,56,150,.42),rgba(18,16,52,.28));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);white-space:nowrap}
+.btn-top:hover{border-color:rgba(95,227,214,.6)}
+.btn-top .lbl-short{display:none}
+.ticket-wrap{margin:6px 0 2px}
+.ticket-btn{position:relative;overflow:hidden;isolation:isolate;height:52px;padding:0 24px 0 20px;gap:10px;font-family:var(--display);font-weight:800;font-size:16.5px;letter-spacing:.01em;text-decoration:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 10px 30px -8px rgba(246,160,103,.55),0 0 0 6px rgba(255,255,255,.06)}
+.ticket-btn svg{width:22px;height:22px}
+.ticket-btn::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:tkshine 4.5s var(--ease) 1.6s infinite}
+@keyframes tkshine{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.ticket-btn .tk-arrow{transition:transform .3s var(--spring)}
+.ticket-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.ticket-btn:hover .tk-arrow{transform:translate(2px,-2px)}
+@media (max-width:600px){.ticket-btn{height:48px;font-size:15.5px;padding:0 20px 0 16px}}
+.logo-link{text-decoration:none;transition:transform .35s var(--ease),opacity .35s var(--ease)}
+.logo-link:hover{transform:scale(1.03);opacity:.92}
+.logo-link:focus-visible{outline-offset:4px}
+.foot-link{margin:12px auto 0;font-size:12px;color:rgba(240,234,255,.55)}
+.foot-link a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.foot-link a:hover{color:var(--teal)}
 .credit a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3);transition:color .2s,border-color .2s}
 .credit a:hover{color:var(--teal);border-color:var(--teal)}
-@media (max-width:600px){.credit{top:10px;right:12px;font-size:11px}}
+@media (max-width:600px){
+  .topbar{top:10px;left:12px;right:12px;justify-content:space-between;gap:10px}
+  .credit{font-size:11px;line-height:1.35}
+  .btn-top{height:34px;padding:0 12px;font-size:12.5px}
+  .btn-top .lbl-long{display:none}.btn-top .lbl-short{display:inline}
+}
+@media (max-width:600px){.credit .by{display:block}}
 /* ---------- countdown + latest cards ---------- */
 .extras{display:flex;flex-direction:column;gap:18px}
 .ext-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin:2px 4px 16px}
@@ -302,11 +328,20 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
   <span class="spot"></span>
 </div>
 <div class="sparkles" id="sparkles" aria-hidden="true"></div>
-<p class="credit">Made with <span aria-label="love">❤️</span> by <a href="https://x.com/noelaiyub" target="_blank" rel="noopener">@noelaiyub</a> &amp; <a href="https://x.com/0xAT8" target="_blank" rel="noopener">@0xAT8</a></p>
+<div class="topbar">
+  <p class="credit">Made with <span aria-label="love">❤️</span> <span class="by">by <a href="https://x.com/noelaiyub" target="_blank" rel="noopener">@noelaiyub</a> &amp; <a href="https://x.com/0xAT8" target="_blank" rel="noopener">@0xAT8</a></span></p>
+  <a class="btn btn-top" href="https://devcon.org/en/" target="_blank" rel="noopener noreferrer"><span class="lbl-long">Visit devcon.org</span><span class="lbl-short">devcon.org</span><span aria-hidden="true">↗</span></a>
+</div>
 
 <main>
   <section class="hero">
-    <div class="logo-plate"><img class="logo" id="heroLogo" alt="Devcon VIII India"></div>
+    <a class="logo-plate logo-link" href="https://devcon.org/en/" target="_blank" rel="noopener noreferrer" aria-label="Visit the official Devcon website"><img class="logo" id="heroLogo" alt="Devcon VIII India"></a>
+    <div class="ticket-wrap r" style="--d:.25">
+      <a class="btn play ticket-btn" href="https://devcon.org/en/tickets/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v2M14 11v2M14 16v2"/></svg>
+        <span>Get your Devcon 8 ticket</span><span class="tk-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
     <div><span class="eyebrow glass r" style="--d:.35"><i></i>Mumbai, India · 3–6 Nov 2026</span></div>
     <h1 class="wordmark" id="wordmark" aria-label="Devcon 8 ID"></h1>
     <p class="lede r" style="--d:.8">Pick a card, type your X handle and get your own numbered Devcon 8 ID to share with the world.</p>
@@ -469,6 +504,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--ink-dim);font-s
     Devcon 8 · Mumbai, India · 3–6 November 2026<br>
     Profile pictures come from public X data. We store your X handle, its ID number and when it was made, and show them on the public Latest cards board.
     <p class="disclaimer">Devcon 8 ID is an unofficial, fan-made project. It is not affiliated with, endorsed by, or connected to the Ethereum Foundation or Devcon. The Devcon name, logo and artwork belong to their respective owners.</p>
+    <p class="foot-link">Unofficial fan project · Not affiliated with Devcon. Learn more at <a href="https://devcon.org/en/" target="_blank" rel="noopener noreferrer">devcon.org</a></p>
   </footer>
 </main>
 

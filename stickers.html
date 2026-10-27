@@ -188,6 +188,19 @@
     c.fillStyle = WHITE; c.textAlign = "left"; c.textBaseline = "middle"; c.fillText(text, x0 + padX, y + h / 2 + 2);
   }
   const idLabel = (id) => "ID NO. " + String(id).padStart(4, "0");
+  // tiny centred credit: "Made with ♥ by @noelaiyub & @0xAT8" (heart drawn, so it looks the same on every device)
+  function credit(c, cx, y, size) {
+    const a = "Made with ", b = " by @noelaiyub & @0xAT8", hw = size * 0.9;
+    c.font = F.b(size); c.textBaseline = "middle"; c.textAlign = "left";
+    const wa = c.measureText(a).width, wb = c.measureText(b).width, x0 = cx - (wa + hw + wb) / 2;
+    c.fillStyle = "rgba(246,242,255,.95)"; c.fillText(a, x0, y); c.fillText(b, x0 + wa + hw, y);
+    const hx = x0 + wa + hw / 2, hy = y + size * 0.02, r = hw * 0.26;
+    c.fillStyle = "rgb(255,122,150)"; c.beginPath();
+    c.moveTo(hx, hy + r * 1.55);
+    c.bezierCurveTo(hx - r * 2.3, hy + r * 0.1, hx - r * 1.3, hy - r * 1.9, hx, hy - r * 0.7);
+    c.bezierCurveTo(hx + r * 1.3, hy - r * 1.9, hx + r * 2.3, hy + r * 0.1, hx, hy + r * 1.55);
+    c.fill();
+  }
 
   /* ---------- template 1: near-square ---------- */
   const RECT = {
@@ -197,9 +210,10 @@
       const pad = iw * (GAP + BLEED);
       background(c, iw, ih, pad, [[3100, 200, 800, PINK, 90], [250, 2300, 850, VIOLET, 110], [3500, 2300, 700, AQUA, 55]]);
       dp(c, 800, ROW, 600, 25, 80, 80, p);
-      // ID under the DP
-      c.textBaseline = "top"; c.textAlign = "center"; c.font = F.pix(112);
-      withShadow(c, s, 12, 6, 0.65, () => { c.fillStyle = YELLOW; c.fillText(idLabel(p.id), 800, 1455); });
+      // X handle under the DP
+      const hs = fitFont(c, "@" + p.name, F.xb, 120, 1560);
+      c.font = F.xb(hs); c.textAlign = "center"; c.textBaseline = "top";
+      withShadow(c, s, 12, 8, 0.6, () => { c.fillStyle = WHITE; c.fillText("@" + p.name, 800, 1490); });
       // QR on the right
       const QCX = iw - 800, size = 1040;
       const qs = qrBlock(c, s, p.url, QCX - size / 2, ROW + 20 - size / 2, size, 42, 9, 50);
@@ -212,15 +226,15 @@
       c.font = F.b(58); c.fillStyle = cream; c.textAlign = "center"; c.fillText("Let's connect", mx, ROW - 70);
       c.strokeStyle = cream; c.lineWidth = 9; c.beginPath(); c.moveTo(mx - 150, ROW + 40); c.lineTo(mx + 150, ROW + 40); c.stroke();
       c.fillStyle = cream; c.beginPath(); c.moveTo(mx + 180, ROW + 40); c.lineTo(mx + 136, ROW + 12); c.lineTo(mx + 136, ROW + 68); c.closePath(); c.fill();
-      // handle, badge, place
-      const hs = fitFont(c, "@" + p.name, F.xb, 270, iw - 500);
-      c.font = F.xb(hs); c.textAlign = "center"; c.textBaseline = "alphabetic";
-      withShadow(c, s, 16, 14, 0.6, () => { c.fillStyle = WHITE; c.fillText("@" + p.name, iw / 2, 1600 + 270 * 0.93); });
+      // big ID number in the middle, badge, place
+      c.font = F.pix(250); c.textAlign = "center"; c.textBaseline = "alphabetic";
+      withShadow(c, s, 16, 12, 0.6, () => { c.fillStyle = YELLOW; c.fillText(idLabel(p.id), iw / 2, 1660 + 250 * 0.9); });
       pill(c, PILL, F.b(80), iw / 2, 1990, 180, 95, 90, 9, "center");
       c.textBaseline = "top"; c.textAlign = "center"; c.fillStyle = WHITE; c.font = F.b(64);
       c.fillText("Mumbai, India · 3–6 Nov 2026", iw / 2, 2240);
       c.font = F.m(32); c.fillStyle = "rgba(220,214,245,.82)";
       c.fillText("Unofficial ID for Devcon 8, not affiliated with the Ethereum Foundation or Devcon", iw / 2, 2350);
+      credit(c, iw / 2, ih + iw * GAP * 0.42, 62);
     }
   };
 
@@ -249,6 +263,7 @@
       c.fillText("Mumbai, India · 3–6 Nov 2026", TX + 6, 800);
       c.font = F.pix(80);
       withShadow(c, s, 12, 6, 0.65, () => { c.fillStyle = YELLOW; c.fillText(idLabel(p.id), TX + 6, 900); });
+      credit(c, iw / 2, ih + iw * GAP * 0.40, 50);
     }
   };
 

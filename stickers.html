@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Devcon8 ID · Sticker sheets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=IBM+Plex+Mono:wght@500&family=Pixelify+Sans:wght@700&display=swap">
+<style>
+  :root { --bg:#121338; --ink:#FBF7FF; --dim:rgba(251,247,255,.7); --line:rgba(255,255,255,.14); --teal:#5FE3D6; --peach:#F6A067; --field:rgba(255,255,255,.06); }
+  * { box-sizing: border-box; }
+  body { margin:0; background:linear-gradient(160deg,#2a1f5c,#121338 60%); color:var(--ink); font:16px/1.5 Inter, system-ui, sans-serif; min-height:100vh; }
+  main { max-width:960px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { margin:0 0 4px; font-size:28px; }
+  p.sub { margin:0 0 24px; color:var(--dim); }
+  .card { background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:18px; padding:20px; margin-bottom:16px; }
+  label { display:block; font-size:13px; color:var(--dim); margin:0 0 6px; }
+  select { appearance:none; width:100%; min-height:44px; background:var(--field) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23FBF7FF' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center; color:var(--ink); border:1px solid var(--line); border-radius:12px; padding:10px 36px 10px 12px; font:inherit; }
+  select option { color:#121338; }
+  input, textarea { width:100%; background:var(--field); color:var(--ink); border:1px solid var(--line); border-radius:12px; padding:10px 12px; font:inherit; }
+  textarea { min-height:70px; resize:vertical; }
+  .row { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .btns { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  button { appearance:none; border:0; border-radius:999px; padding:12px 20px; min-height:44px; font:700 15px Inter, system-ui, sans-serif; cursor:pointer; color:#121338; background:linear-gradient(90deg,var(--teal),var(--peach)); }
+  button.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  #status { font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:13px; color:var(--dim); margin-top:12px; white-space:pre-wrap; }
+  #people { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; max-height:180px; overflow:auto; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--line); background:var(--field); }
+  .chip.miss { border-color:#ff8f8f; color:#ffc2c2; }
+  #preview { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  #preview figure { margin:0; }
+  #preview img { width:100%; border-radius:6px; background:#fff; display:block; }
+  #preview figcaption { font-size:13px; color:var(--dim); margin-top:6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Sticker sheets</h1>
+  <p class="sub">Makes a networking sticker for everyone on the Devcon8 ID board — name, ID number, profile picture and a QR code to their own X profile — in two templates, laid out on A4 or A3 for printing.</p>
+
+  <section class="card">
+    <div>
+      <label for="skip">Skip these handles (comma or new line, optional)</label>
+      <textarea id="skip" placeholder="spamaccount, testuser"></textarea>
+    </div>
+    <div class="btns">
+      <button id="loadBtn">1 · Load everyone from the board</button>
+    </div>
+    <div id="status">Not loaded yet.</div>
+    <div id="people"></div>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <div>
+        <label for="paper">Paper size</label>
+        <select id="paper">
+          <option value="a4" selected>A4 (21 × 29.7 cm)</option>
+          <option value="a3">A3 (29.7 × 42 cm)</option>
+        </select>
+      </div>
+      <div>
+        <label for="size">Sticker size (width of the cut line)</label>
+        <select id="size">
+          <option value="7">Small · 7 cm</option>
+          <option value="8.8" selected>Medium · 8.8 cm</option>
+          <option value="10.5">Large · 10.5 cm</option>
+          <option value="13">Extra large · 13 cm</option>
+        </select>
+      </div>
+    </div>
+    <div id="fit" class="sub" style="margin:12px 0 0"></div>
+    <div class="btns">
+      <button id="rectBtn" disabled>2 · Download square sheets (PDF)</button>
+      <button id="longBtn" disabled>3 · Download long sheets (PDF)</button>
+      <button id="prevBtn" class="ghost" disabled>Preview first page of each</button>
+    </div>
+    <p class="sub" style="margin:12px 0 0">Print at <b>Actual size / 100%</b>, not “Fit to page”, on the same paper size you picked here. Cut along the thin dark line.</p>
+  </section>
+
+  <section id="preview"></section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  /* ---------- print geometry ---------- */
+  const DPI = 300;
+  const cmToPx = (cm) => Math.round(cm / 2.54 * DPI);
+  const PAPERS = { a4: { w: 21, h: 29.7, label: "A4" }, a3: { w: 29.7, h: 42, label: "A3" } };
+  const MARGIN_CM = 0.6;                 // printers can't print right to the edge
+  const PILL = "Attending Devcon 8";     // same badge on every sticker
+  const GAP = 0.045, BLEED = 0.03;        // space inside the cut line / gradient outside it (× artwork width)
+
+  /* ---------- colours (same as the stickers) ---------- */
+  const PEACH = [240, 160, 130], PINK = [214, 130, 190], VIOLET = [140, 112, 220], AQUA = [110, 220, 210];
+  const NAVY = [22, 20, 60], DEEP = [40, 34, 100], WHITE = "rgb(252,249,255)", ORANGE = [244, 170, 120], LAV = [200, 180, 255];
+  const YELLOW = "rgb(255,210,63)", LINE = "rgb(12,10,24)";
+  const rgb = (c, a = 1) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  const F = {
+    xb: (px) => `800 ${px}px Inter, "Helvetica Neue", Arial, sans-serif`,
+    b: (px) => `700 ${px}px Inter, "Helvetica Neue", Arial, sans-serif`,
+    m: (px) => `500 ${px}px Inter, "Helvetica Neue", Arial, sans-serif`,
+    mono: (px) => `500 ${px}px "IBM Plex Mono", ui-monospace, Menlo, monospace`,
+    pix: (px) => `700 ${px}px "Pixelify Sans", "IBM Plex Mono", monospace`
+  };
+
+  /* ---------- small drawing helpers (all in artwork units) ---------- */
+  function rr(c, x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+  }
+  function glow(c, x, y, r, col, a, blur) {
+    const g = c.createRadialGradient(x, y, Math.max(0, r - blur), x, y, r + blur * 1.6);
+    g.addColorStop(0, rgb(col, a / 255)); g.addColorStop(1, rgb(col, 0));
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r + blur * 1.6, 0, Math.PI * 2); c.fill();
+  }
+  function background(c, iw, ih, pad, glows) {
+    const a = 0.55 / (1.5 * iw), b = 0.95 / (1.5 * ih), k = a * a + b * b;
+    const g = c.createLinearGradient(0, 0, a / k, b / k);
+    [[0, PEACH], [.30, PINK], [.58, VIOLET], [.80, DEEP], [1, NAVY]].forEach(([t, col]) => g.addColorStop(t, rgb(col)));
+    c.fillStyle = g; c.fillRect(-pad, -pad, iw + 2 * pad, ih + 2 * pad);
+    glows.forEach(([x, y, r, col, al]) => glow(c, x, y, r, col, al, 220));
+  }
+  function withShadow(c, s, blur, dy, alpha, fn) {
+    c.save(); c.shadowColor = `rgba(10,8,30,${alpha})`; c.shadowBlur = blur * s; c.shadowOffsetY = dy * s; fn(); c.restore();
+  }
+  function fitFont(c, text, fontFn, size, maxW) {
+    c.font = fontFn(size); const w = c.measureText(text).width;
+    return w > maxW ? Math.floor(size * maxW / w) : size;
+  }
+  function dp(c, cx, cy, R, ringW, haloExtra, haloBlur, person) {
+    glow(c, cx, cy, R + haloExtra, AQUA, 150, haloBlur);
+    const rw = R + ringW;
+    const rg = c.createLinearGradient(cx - rw, 0, cx + rw, 0);
+    rg.addColorStop(0, rgb(VIOLET)); rg.addColorStop(1, rgb(ORANGE));
+    c.fillStyle = rg; c.beginPath(); c.arc(cx, cy, rw, 0, Math.PI * 2); c.fill();
+    c.save(); c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.clip();
+    if (person.img) {
+      const im = person.img, sq = Math.min(im.naturalWidth, im.naturalHeight);
+      c.drawImage(im, (im.naturalWidth - sq) / 2, (im.naturalHeight - sq) / 2, sq, sq, cx - R, cy - R, 2 * R, 2 * R);
+    } else {
+      const g = c.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
+      g.addColorStop(0, "#3B2F86"); g.addColorStop(1, "#16194A");
+      c.fillStyle = g; c.fillRect(cx - R, cy - R, 2 * R, 2 * R);
+      c.fillStyle = "#5FE3D6"; c.font = F.xb(R * 0.8); c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillText((person.name || "?").replace(/^_+/, "").slice(0, 2).toUpperCase(), cx, cy + R * 0.04);
+    }
+    c.restore();
+  }
+  function qrBlock(c, s, url, left, top, size, pad, bw, radius) {
+    const q = qrcode(0, "M"); q.addData(url); q.make();
+    const n = q.getModuleCount();
+    const mod = Math.max(1, Math.round(size * s / n));        // whole device pixels per module = crisp edges
+    const qs = n * mod / s;
+    const x = left, y = top;
+    withShadow(c, s, 28, 22, 0.55, () => { c.fillStyle = "#fff"; c.beginPath(); rr(c, x - pad, y - pad, qs + 2 * pad, qs + 2 * pad, radius); c.fill(); });
+    const g = c.createLinearGradient(x - pad - bw, 0, x + qs + pad + bw, 0);
+    g.addColorStop(0, rgb(AQUA)); g.addColorStop(1, rgb(ORANGE));
+    c.fillStyle = g; c.beginPath(); rr(c, x - pad - bw, y - pad - bw, qs + 2 * (pad + bw), qs + 2 * (pad + bw), radius + bw); c.fill();
+    c.fillStyle = "#fff"; c.beginPath(); rr(c, x - pad, y - pad, qs + 2 * pad, qs + 2 * pad, radius); c.fill();
+    const off = document.createElement("canvas"); off.width = off.height = n * mod;
+    const o = off.getContext("2d"); o.fillStyle = rgb(NAVY);
+    for (let r = 0; r < n; r++) for (let col = 0; col < n; col++) if (q.isDark(r, col)) o.fillRect(col * mod, r * mod, mod, mod);
+    c.save(); c.imageSmoothingEnabled = false; c.drawImage(off, x, y, qs, qs); c.restore();
+    return qs;
+  }
+  function gradientText(c, text, x, y, align) {
+    const w = c.measureText(text).width, x0 = align === "center" ? x - w / 2 : x;
+    const g = c.createLinearGradient(x0, 0, x0 + w, 0);
+    g.addColorStop(0, rgb(AQUA)); g.addColorStop(0.5, rgb(LAV)); g.addColorStop(1, rgb(ORANGE));
+    c.fillStyle = g; c.textAlign = align; c.fillText(text, x, y);
+  }
+  function pill(c, text, font, x, y, h, padX, radius, bw, align) {
+    c.font = font; const tw = c.measureText(text).width, w = tw + 2 * padX;
+    const x0 = align === "center" ? x - w / 2 : x;
+    c.fillStyle = rgb(NAVY, 175 / 255); c.beginPath(); rr(c, x0 + bw, y + bw, w - 2 * bw, h - 2 * bw, radius - bw); c.fill();
+    const g = c.createLinearGradient(x0, 0, x0 + w, 0); g.addColorStop(0, rgb(AQUA)); g.addColorStop(1, rgb(ORANGE));
+    c.fillStyle = g; c.beginPath(); rr(c, x0, y, w, h, radius); rr(c, x0 + bw, y + bw, w - 2 * bw, h - 2 * bw, radius - bw); c.fill("evenodd");
+    c.fillStyle = WHITE; c.textAlign = "left"; c.textBaseline = "middle"; c.fillText(text, x0 + padX, y + h / 2 + 2);
+  }
+  const idLabel = (id) => "ID NO. " + String(id).padStart(4, "0");
+  // tiny centred credit: "Made with ♥ by @noelaiyub & @0xAT8" (heart drawn, so it looks the same on every device)
+  function credit(c, cx, y, size) {
+    const a = "Made with ", b = " by @noelaiyub & @0xAT8", hw = size * 0.9;
+    c.font = F.b(size); c.textBaseline = "middle"; c.textAlign = "left";
+    const wa = c.measureText(a).width, wb = c.measureText(b).width, x0 = cx - (wa + hw + wb) / 2;
+    c.fillStyle = "rgba(246,242,255,.95)"; c.fillText(a, x0, y); c.fillText(b, x0 + wa + hw, y);
+    const hx = x0 + wa + hw / 2, hy = y + size * 0.02, r = hw * 0.26;
+    c.fillStyle = "rgb(255,122,150)"; c.beginPath();
+    c.moveTo(hx, hy + r * 1.55);
+    c.bezierCurveTo(hx - r * 2.3, hy + r * 0.1, hx - r * 1.3, hy - r * 1.9, hx, hy - r * 0.7);
+    c.bezierCurveTo(hx + r * 1.3, hy - r * 1.9, hx + r * 2.3, hy + r * 0.1, hx, hy + r * 1.55);
+    c.fill();
+  }
+
+  /* ---------- template 1: near-square ---------- */
+  const RECT = {
+    iw: 3820, ih: 2680, radius: 190, name: "square",
+    draw(c, s, p) {
+      const iw = this.iw, ih = this.ih, ROW = 820;
+      const pad = iw * (GAP + BLEED);
+      background(c, iw, ih, pad, [[3100, 200, 800, PINK, 90], [250, 2300, 850, VIOLET, 110], [3500, 2300, 700, AQUA, 55]]);
+      dp(c, 800, ROW, 600, 25, 80, 80, p);
+      // X handle under the DP
+      const hs = fitFont(c, "@" + p.name, F.xb, 120, 1560);
+      c.font = F.xb(hs); c.textAlign = "center"; c.textBaseline = "top";
+      withShadow(c, s, 12, 8, 0.6, () => { c.fillStyle = WHITE; c.fillText("@" + p.name, 800, 1490); });
+      // QR on the right
+      const QCX = iw - 800, size = 1040;
+      const qs = qrBlock(c, s, p.url, QCX - size / 2, ROW + 20 - size / 2, size, 42, 9, 50);
+      const qTop = ROW + 20 - size / 2;
+      c.textAlign = "center"; c.textBaseline = "top"; c.fillStyle = WHITE; c.font = F.xb(60);
+      c.fillText("SCAN TO CONNECT", QCX - size / 2 + qs / 2, qTop - 42 - 100);
+      c.font = F.mono(72); gradientText(c, p.urlLabel, QCX - size / 2 + qs / 2, qTop + qs + 42 + 30, "center");
+      // "Let's connect →"
+      const mx = (800 + 600 + (QCX - size / 2 - 42)) / 2, cream = "rgb(255,236,225)";
+      c.font = F.b(58); c.fillStyle = cream; c.textAlign = "center"; c.fillText("Let's connect", mx, ROW - 70);
+      c.strokeStyle = cream; c.lineWidth = 9; c.beginPath(); c.moveTo(mx - 150, ROW + 40); c.lineTo(mx + 150, ROW + 40); c.stroke();
+      c.fillStyle = cream; c.beginPath(); c.moveTo(mx + 180, ROW + 40); c.lineTo(mx + 136, ROW + 12); c.lineTo(mx + 136, ROW + 68); c.closePath(); c.fill();
+      // big ID number in the middle, badge, place
+      c.font = F.pix(250); c.textAlign = "center"; c.textBaseline = "alphabetic";
+      withShadow(c, s, 16, 12, 0.6, () => { c.fillStyle = YELLOW; c.fillText(idLabel(p.id), iw / 2, 1660 + 250 * 0.9); });
+      pill(c, PILL, F.b(80), iw / 2, 1990, 180, 95, 90, 9, "center");
+      c.textBaseline = "top"; c.textAlign = "center"; c.fillStyle = WHITE; c.font = F.b(64);
+      c.fillText("Mumbai, India · 3–6 Nov 2026", iw / 2, 2240);
+      c.font = F.m(32); c.fillStyle = "rgba(220,214,245,.82)";
+      c.fillText("Unofficial ID for Devcon 8, not affiliated with the Ethereum Foundation or Devcon", iw / 2, 2350);
+      credit(c, iw / 2, ih + iw * GAP * 0.42, 62);
+    }
+  };
+
+  /* ---------- template 2: long ---------- */
+  const LONG = {
+    iw: 3320, ih: 1120, radius: 110, name: "long",
+    draw(c, s, p) {
+      const iw = this.iw, ih = this.ih, TX = 900;
+      const pad = iw * (GAP + BLEED);
+      background(c, iw, ih, pad, [[2750, 120, 440, PINK, 90], [200, 980, 460, VIOLET, 110], [3150, 1000, 400, AQUA, 55]]);
+      dp(c, 430, ih / 2, 375, 20, 70, 70, p);
+      // QR on the right
+      const size = 690, qPad = 38;
+      const left = iw - 110 - qPad - size, top = (ih - size) / 2 - 10;
+      const qs = qrBlock(c, s, p.url, left, top, size, qPad, 8, 44);
+      c.textAlign = "center"; c.textBaseline = "top"; c.fillStyle = WHITE; c.font = F.xb(44);
+      c.fillText("SCAN TO CONNECT", left + qs / 2, top - qPad - 70);
+      c.font = F.mono(56); gradientText(c, p.urlLabel, left + qs / 2, top + qs + qPad + 26, "center");
+      // middle column
+      const maxW = left - qPad - 70 - TX;
+      const hs = fitFont(c, "@" + p.name, F.xb, 215, maxW);
+      c.font = F.xb(hs); c.textAlign = "left"; c.textBaseline = "alphabetic";
+      withShadow(c, s, 14, 12, 0.6, () => { c.fillStyle = WHITE; c.fillText("@" + p.name, TX, 215 + 215 * 0.93); });
+      pill(c, PILL, F.b(74), TX, 535, 170, 85, 85, 8, "left");
+      c.textBaseline = "top"; c.textAlign = "left"; c.fillStyle = WHITE; c.font = F.b(62);
+      c.fillText("Mumbai, India · 3–6 Nov 2026", TX + 6, 800);
+      c.font = F.pix(80);
+      withShadow(c, s, 12, 6, 0.65, () => { c.fillStyle = YELLOW; c.fillText(idLabel(p.id), TX + 6, 900); });
+      credit(c, iw / 2, ih + iw * GAP * 0.40, 50);
+    }
+  };
+
+  /* ---------- one sticker = artwork + gap + thin cut line + bleed ---------- */
+  function pieceSize(T) {
+    const cutW = T.iw * (1 + 2 * GAP);
+    const s = cmToPx(+$("size").value) / cutW;              // device px per artwork unit
+    const pad = T.iw * (GAP + BLEED);
+    return { s, pad, w: Math.round((T.iw + 2 * pad) * s), h: Math.round((T.ih + 2 * pad) * s) };
+  }
+  function drawPiece(ctx, T, p, x, y) {
+    const { s, pad, w, h } = pieceSize(T);
+    ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+    ctx.translate(x + pad * s, y + pad * s); ctx.scale(s, s);
+    T.draw(ctx, s, p);
+    const g = T.iw * GAP;
+    ctx.strokeStyle = LINE; ctx.lineWidth = Math.max(1.6, 0.0009 * T.iw * s * 1.0) / s;
+    ctx.beginPath(); rr(ctx, -g, -g, T.iw + 2 * g, T.ih + 2 * g, T.radius + g); ctx.stroke();
+    ctx.restore();
+  }
+  // how many stickers fit: tries the paper upright and sideways, keeps whichever fits more
+  function layout(T) {
+    const P = PAPERS[$("paper").value], { w, h } = pieceSize(T), m = cmToPx(MARGIN_CM);
+    const opts = [["portrait", cmToPx(P.w), cmToPx(P.h)], ["landscape", cmToPx(P.h), cmToPx(P.w)]].map(([o, pw, ph]) => {
+      const cols = Math.floor((pw - 2 * m) / w), rows = Math.floor((ph - 2 * m) / h);
+      return { orientation: o, pw, ph, cols, rows, per: Math.max(0, cols) * Math.max(0, rows), paper: P, key: $("paper").value };
+    });
+    return opts[1].per > opts[0].per ? opts[1] : opts[0];
+  }
+  function renderPage(T, people, L) {
+    const cv = document.createElement("canvas"); cv.width = L.pw; cv.height = L.ph;
+    const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, L.pw, L.ph);
+    const { w, h } = pieceSize(T);
+    const x0 = Math.round((L.pw - w * L.cols) / 2), y0 = Math.round((L.ph - h * L.rows) / 2);
+    people.forEach((p, i) => drawPiece(ctx, T, p, x0 + (i % L.cols) * w, y0 + Math.floor(i / L.cols) * h));
+    return cv;
+  }
+  function updateFit() {
+    const a = layout(RECT), b = layout(LONG), P = a.paper.label;
+    const line = (L, name) => L.per
+      ? `${name}: ${L.per} per ${P} (${L.cols} × ${L.rows}${L.orientation === "landscape" ? ", sideways" : ""})` +
+        (people.length ? ` → ${Math.ceil(people.length / L.per)} page(s)` : "")
+      : `${name}: too big for ${P}, pick a smaller size`;
+    $("fit").textContent = line(a, "Square") + "  ·  " + line(b, "Long");
+  }
+  $("paper").onchange = updateFit; $("size").onchange = updateFit;
+
+  /* ---------- data ---------- */
+  let people = [];
+  const status = (t) => { $("status").textContent = t; };
+  const clean = (v) => String(v || "").replace(/^@+/, "").replace(/[^A-Za-z0-9_]/g, "").slice(0, 15);
+
+  async function fetchBoard() {
+    const all = []; let before = 0;
+    for (let guard = 0; guard < 100; guard++) {
+      const r = await fetch(`/api/id?recent=100${before ? "&before=" + before : ""}`, { cache: "no-store" });
+      if (!r.ok) throw new Error("Board request failed (" + r.status + ")");
+      const d = await r.json(); const items = d.items || [];
+      if (!items.length) break;
+      all.push(...items);
+      const last = items[items.length - 1].id;
+      if (!(last > 1) || (before && last >= before)) break;
+      before = last;
+    }
+    const seen = new Set();
+    return all.filter((x) => x && x.u && !seen.has(x.u) && seen.add(x.u)).sort((a, b) => a.id - b.id);
+  }
+  function loadImage(u) {
+    return new Promise((res) => {
+      const im = new Image(); let done = false;
+      const fin = (v) => { if (!done) { done = true; res(v); } };
+      im.crossOrigin = "anonymous";
+      im.onload = () => fin(im.naturalWidth ? im : null); im.onerror = () => fin(null);
+      im.src = "/api/avatar?u=" + encodeURIComponent(u);
+      setTimeout(() => fin(null), 20000);
+    });
+  }
+  async function pool(list, limit, fn) {
+    let i = 0; const run = async () => { while (i < list.length) { const k = i++; await fn(list[k], k); } };
+    await Promise.all(Array.from({ length: Math.min(limit, list.length) }, run));
+  }
+
+  $("loadBtn").onclick = async () => {
+    $("loadBtn").disabled = true; ["rectBtn", "longBtn", "prevBtn"].forEach((b) => ($(b).disabled = true));
+    $("people").innerHTML = ""; $("preview").innerHTML = "";
+    try {
+      status("Loading fonts…");
+      await Promise.all([F.xb(40), F.b(40), F.m(40), F.mono(40), F.pix(40)].map((f) => document.fonts.load(f).catch(() => {})));
+      status("Reading the board…");
+      const skip = new Set($("skip").value.split(/[\s,]+/).map((x) => clean(x).toLowerCase()).filter(Boolean));
+      const board = (await fetchBoard()).filter((x) => !skip.has(String(x.u).toLowerCase()));
+      people = board.map((x) => {
+        const name = clean(x.n || x.u) || x.u;
+        return {
+          u: x.u, name, id: x.id,
+          url: "https://x.com/" + name, urlLabel: "x.com/" + name
+        };
+      });
+      let got = 0, n = 0;
+      await pool(people, 6, async (p) => {
+        p.img = await loadImage(p.u); n++; if (p.img) got++;
+        status(`Profile pictures: ${n}/${people.length} (${got} found)`);
+      });
+      $("people").innerHTML = people.map((p) => `<span class="chip${p.img ? "" : " miss"}" title="${p.img ? "" : "No picture found: initials will be used"}">#${String(p.id).padStart(4, "0")} @${p.name}</span>`).join("");
+      const missing = people.filter((p) => !p.img).length;
+      status(`${people.length} people ready.` +
+        (missing ? ` ${missing} without a profile picture (shown in red) will get initials.` : ""));
+      updateFit();
+      ["rectBtn", "longBtn", "prevBtn"].forEach((b) => ($(b).disabled = !people.length));
+    } catch (e) {
+      status("Could not load: " + e.message);
+    }
+    $("loadBtn").disabled = false;
+  };
+
+  async function makePdf(T) {
+    const L = layout(T);
+    if (!L.per) { status(`This sticker size is too big for ${L.paper.label}. Pick a smaller size.`); return; }
+    const per = L.per, pages = Math.ceil(people.length / per);
+    const mmW = L.orientation === "portrait" ? L.paper.w * 10 : L.paper.h * 10, mmH = L.orientation === "portrait" ? L.paper.h * 10 : L.paper.w * 10;
+    const pdf = new jspdf.jsPDF({ orientation: L.orientation, unit: "mm", format: L.key, compress: true });
+    for (let i = 0; i < pages; i++) {
+      status(`Drawing ${T.name} page ${i + 1} of ${pages}…`);
+      await new Promise((r) => setTimeout(r, 0));
+      const cv = renderPage(T, people.slice(i * per, (i + 1) * per), L);
+      if (i) pdf.addPage(L.key, L.orientation);
+      pdf.addImage(cv.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, mmW, mmH, undefined, "FAST");
+    }
+    const file = `devcon8-stickers-${T.name}-${L.paper.label}-${$("size").value}cm.pdf`;
+    pdf.save(file);
+    status(`Saved ${file} (${pages} page${pages > 1 ? "s" : ""}, ${people.length} stickers, ${per} per ${L.paper.label}).`);
+  }
+  $("rectBtn").onclick = async (e) => { e.target.disabled = true; try { await makePdf(RECT); } catch (x) { status("PDF failed: " + x.message); } e.target.disabled = false; };
+  $("longBtn").onclick = async (e) => { e.target.disabled = true; try { await makePdf(LONG); } catch (x) { status("PDF failed: " + x.message); } e.target.disabled = false; };
+  $("prevBtn").onclick = () => {
+    $("preview").innerHTML = "";
+    [RECT, LONG].forEach((T) => {
+      const L = layout(T); if (!L.per) return;
+      const cv = renderPage(T, people.slice(0, L.per), L);
+      const fig = document.createElement("figure");
+      fig.innerHTML = `<img alt="First ${T.name} sheet" src="${cv.toDataURL("image/jpeg", 0.85)}"><figcaption>${T.name} · ${L.paper.label} · page 1</figcaption>`;
+      $("preview").appendChild(fig);
+    });
+  };
+updateFit();
+})();
+</script>
+</body>
+</html>
